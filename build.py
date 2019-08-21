@@ -5,6 +5,7 @@ input_path = 'src/'
 output_path = 'glfx.js'
 
 import re, os, sys, time, tempfile
+from shutil import copyfile
 
 header = '''/*
  * glfx.js
@@ -50,6 +51,7 @@ def build():
     data = header + data
     open(output_path, 'w').write(data)
     print 'built %s (%u lines)' % (output_path, len(data.split('\n')))
+    copyfile('./glfx.js', './www/glfx.js/glfx.js')
 
 def stat():
     return [os.stat(file).st_mtime for file in sources()]
