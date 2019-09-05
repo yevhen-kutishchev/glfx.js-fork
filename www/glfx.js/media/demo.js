@@ -95,7 +95,8 @@ var texture;
 var initCount = 0, loadCount = 1;
 var images = {
     'image.jpg': { credit: 'matthigh', url: 'http://www.flickr.com/photos/matthigh/2125630879/' },
-    'lighthouse.jpg': { credit: 'renet', url: 'http://www.flickr.com/photos/renet/12135813/' },
+    // 'lighthouse.jpg': { credit: 'renet', url: 'http://www.flickr.com/photos/renet/12135813/' },
+    'me.jpg': { credit: 'renet', url: 'http://localhost:5000/' },
     'perspective.jpg': { credit: 'stuckincustoms', url: 'http://www.flickr.com/photos/stuckincustoms/1213760517/' }
 };
 for (var file in images) {
@@ -249,12 +250,12 @@ var filters = {
             this.setCode('canvas.draw(texture).tiltShift(' + this.start.x + ', ' + this.start.y + ', ' + this.end.x + ', ' + this.end.y + ', ' + this.blurRadius + ', ' + this.gradientRadius + ').update();');
         }),
         new Filter('Lens Blur', 'lensBlur', function() {
-            this.addSlider('radius', 'Radius', 0, 50, 10, 1);
+            this.addSlider('radius', 'Radius', 0, 50, 50, 1);
             this.addSlider('brightness', 'Brightness', -1, 1, 0.75, 0.01);
             this.addSlider('angle', 'Angle', -Math.PI, Math.PI, 0, 0.01);
         }, function() {
             this.setCode('canvas.draw(texture).lensBlur(' + this.radius + ', ' + this.brightness + ', ' + this.angle + ').update();');
-        }, 'lighthouse.jpg')
+        }, 'me.jpg')
     ],
     'Warp': [
         new Filter('Swirl', 'swirl', function() {

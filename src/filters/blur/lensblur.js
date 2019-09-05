@@ -52,6 +52,19 @@ function lensBlur(radius, brightness, angle) {
             }\
             return color / total;\
         }\
+        vec4 sample1(vec2 delta) {\
+            /* randomize the lookup values to hide the fixed number of samples */\
+            float offset = random(vec3(delta, 151.7182), 0.0);\
+            \
+            vec4 color = vec4(0.0);\
+            float total = 0.0;\
+            for (float t = 0.0; t <= 30.0; t++) {\
+                float percent = (t + offset) / 30.0;\
+                color += texture2D(texture0, texCoord + delta * percent);\
+                total += 1.0;\
+            }\
+            return color / total;\
+        }\
     ';
 
     gl.lensBlur0 = gl.lensBlur0 || new Shader(null, common + '\
@@ -68,8 +81,19 @@ function lensBlur(radius, brightness, angle) {
         void main() {\
             vec4 color = (sample(delta0) + 2.0 * texture2D(texture1, texCoord)) / 3.0;\
             gl_FragColor = pow(color, vec4(power));\
+            gl_FragColor = texture2D(texture1, texCoord);\
         }\
     ').textures({ texture1: 1 });
+    gl.draw = gl.draw || new Shader(null, '\
+        uniform sampler2D texture0;\
+        varying vec2 texCoord;\
+        \
+        void main() {\
+            vec4 color = texture2D(texture0, texCoord);\
+            gl_FragColor = color;\
+        }\
+    ');
+    // simpleShader.call(this, gl.draw, {}, this._.extraTexture);
 
     // Generate
     var dir = [];
